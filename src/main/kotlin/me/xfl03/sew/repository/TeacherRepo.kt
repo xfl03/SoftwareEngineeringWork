@@ -5,4 +5,6 @@ import me.xfl03.framework.repo.Repository
 import me.xfl03.sew.entity.Teacher
 
 @Repo
-interface TeacherRepo : Repository<Teacher> {}
+interface TeacherRepo : Repository<Teacher> {
+    fun findByIdAndPassword(id: Long, password: String): Teacher?
+}

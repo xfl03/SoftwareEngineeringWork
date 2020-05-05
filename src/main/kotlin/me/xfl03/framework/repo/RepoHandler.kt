@@ -31,11 +31,11 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
         val session = HibernateUtil.getSession()
         val tx = session.beginTransaction()
         when (query[0]) {
-            "insert" -> {
+            "insert", "save" -> {
                 if (args == null || args.isEmpty()) {
                     throw java.lang.IllegalArgumentException("Not enough arguments.");
                 }
-                session.save(args[0])
+                session.saveOrUpdate(args[0])
             }
             "update" -> {
                 if (args == null || args.isEmpty()) {
@@ -43,13 +43,13 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
                 }
                 session.update(args[0])
             }
-            "delete" -> {
+            "delete", "remove" -> {
                 if (args == null || args.isEmpty()) {
                     throw java.lang.IllegalArgumentException("Not enough arguments.");
                 }
                 session.delete(args[0])
             }
-            "find", "select" -> {
+            "select", "find" -> {
                 val q = parseSelectQuery(query.subList(1, query.size), session, args)
                 val list = q.list()
                 tx.commit()
@@ -58,9 +58,10 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
             }
             "list" -> {
                 val q = parseSelectQuery(query.subList(1, query.size), session, args)
+                val list = q.list()
                 tx.commit()
                 session.close()
-                return q.list()
+                return list
             }
         }
         tx.commit()
@@ -87,13 +88,20 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
     fun parseSelectQuery(query: List<String>, session: Session, args: Array<Any>?): Query<*> {
         val sb = StringBuilder("FROM ${entityClass.simpleName} ")
         val par = ArrayList<String>()
+        val map = HashMap<Int, String>()
+        val map2 = HashMap<Int, String>()
         for (str in query) {
             when (str) {
                 "by" -> sb.append("WHERE ")
                 "and" -> sb.append("AND ")
                 "or" -> sb.append("OR ")
+                "like" -> map[par.size - 1] = "LIKE :${par[par.size - 1]}"
+                "contains" -> {
+                    map[par.size - 1] = "LIKE :${par[par.size - 1]}"
+                    map2[par.size - 1] = "%{0}%"
+                }
                 else -> {
-                    sb.append("$str = :$str ")
+                    sb.append("$str {${par.size}} ")
                     par.add(str)
                 }
             }
@@ -101,10 +109,21 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
         if (par.isNotEmpty() && (args.isNullOrEmpty() || par.size < args.size)) {
             throw IllegalArgumentException("Not enough arguments")
         }
-        println(sb.toString())
-        val q = session.createQuery(sb.toString())
+        var hql = sb.toString()
+        println(hql)
         for (i in 0 until par.size) {
-            q.setParameter(par[i], args!![i])
+            hql = hql.replace("{$i}", map[i] ?: " = :{$par[i}")
+        }
+        println(hql)
+        val q = session.createQuery(hql)
+        for (i in 0 until par.size) {
+            if (map2.containsKey(i)) {
+                val parm = map2[i]!!.replace("{0}", args!![i].toString());
+                println("${par[i]} -> $parm")
+                q.setParameter(par[i], parm)
+            } else {
+                q.setParameter(par[i], args!![i])
+            }
         }
         return q
     }
