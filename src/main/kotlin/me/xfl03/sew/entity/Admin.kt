@@ -1,5 +1,9 @@
 package me.xfl03.sew.entity
 
+import me.xfl03.framework.view.BooleanAdapter
+import me.xfl03.framework.view.Name
+import me.xfl03.framework.view.Order
+
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -7,17 +11,10 @@ import javax.persistence.Id
 @Entity
 data class Admin(
     @Id
+    @Name("π‹¿Ì‘±ID")
     val id: Long = 0,
     @Column
+    @Name("√‹¬Î")
+    @Order(3)
     val password: String = ""
-)
-
-/*
-public class Admin {
-    public Admin(...) {
-        ...
-    }
-    public long id;
-    public String password;
-}
- */
+) : Loginable

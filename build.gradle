@@ -15,6 +15,7 @@ dependencies {
     compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.6.0'
     compile group: 'com.google.inject', name: 'guice', version: '4.2.3'
     compile group: 'org.reflections', name: 'reflections', version: '0.9.12'
+    compile group: 'no.tornado', name: 'tornadofx', version: '1.7.20'
 }
 
 compileKotlin {

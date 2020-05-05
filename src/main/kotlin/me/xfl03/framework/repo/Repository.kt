@@ -1,4 +1,4 @@
-package me.xfl03.repohandler
+package me.xfl03.framework.repo
 
 interface Repository<T> {
     fun insert(e: T)

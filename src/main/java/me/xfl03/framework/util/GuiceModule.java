@@ -1,4 +1,4 @@
-package me.xfl03.repohandler.util;
+package me.xfl03.framework.util;
 
 import com.google.inject.AbstractModule;
 

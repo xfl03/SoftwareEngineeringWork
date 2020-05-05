@@ -1,6 +1,6 @@
-package me.xfl03.repohandler.util
+package me.xfl03.framework.util
 
-import me.xfl03.repohandler.Repo
+import me.xfl03.framework.repo.Repo
 import org.reflections.Reflections
 
 object ReflectionsUtil {

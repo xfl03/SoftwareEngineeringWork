@@ -1,6 +1,6 @@
-package me.xfl03.repohandler.util
+package me.xfl03.framework.util
 
-import me.xfl03.repohandler.RepoHandler
+import me.xfl03.framework.repo.RepoHandler
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Proxy

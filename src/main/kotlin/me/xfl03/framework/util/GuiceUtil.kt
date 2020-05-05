@@ -1,8 +1,8 @@
-package me.xfl03.repohandler.util
+package me.xfl03.framework.util
 
 import com.google.inject.Guice
 import com.google.inject.Injector
-import me.xfl03.repohandler.Repository
+import me.xfl03.framework.repo.Repository
 import java.util.*
 
 internal object GuiceUtil {

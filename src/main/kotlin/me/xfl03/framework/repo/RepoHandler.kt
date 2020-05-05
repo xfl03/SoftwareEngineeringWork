@@ -1,7 +1,7 @@
-package me.xfl03.repohandler
+package me.xfl03.framework.repo
 
-import me.xfl03.repohandler.util.HibernateUtil
-import me.xfl03.repohandler.util.ReflectionUtil
+import me.xfl03.framework.util.HibernateUtil
+import me.xfl03.framework.util.ReflectionUtil
 import org.hibernate.Session
 import org.hibernate.query.Query
 import java.lang.StringBuilder
