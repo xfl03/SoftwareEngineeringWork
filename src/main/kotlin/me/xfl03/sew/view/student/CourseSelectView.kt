@@ -1,25 +1,37 @@
-package me.xfl03.sew.view
+package me.xfl03.sew.view.student
 
-import javafx.scene.layout.VBox
-import me.xfl03.framework.util.DebounceExecutor
 import me.xfl03.framework.util.TornadoFXUtil.addChangeListener
 import me.xfl03.framework.util.TornadoFXUtil.addDoubleClickListener
 import me.xfl03.framework.util.TornadoFXUtil.createTableView
 import me.xfl03.framework.util.TornadoFXUtil.showAlert
 import me.xfl03.framework.util.TornadoFXUtil.showConfirm
+import me.xfl03.framework.view.ViewManager
+import me.xfl03.sew.entity.Student
 import me.xfl03.sew.service.CourseService
-import tornadofx.View
-import tornadofx.asObservable
-import tornadofx.textfield
+import me.xfl03.sew.service.UserService
+import tornadofx.*
 
 class CourseSelectView : View() {
+    val userService: UserService by di()
+    val student = userService.user as Student
     private val courseService: CourseService by di()
-    override val root = VBox()
+
+    val text = textfield("")
+    val table = createTableView(courseService.getCourses())
+
+    override val root = vbox{
+        button("返回"){
+            action{
+                ViewManager.back()
+            }
+        }
+        text
+        table
+    }
 
     init {
         title = "选课"
-        val text = textfield("")
-        val table = createTableView(courseService.getCourses())
+        text.promptText = "课程名"
 
         //课程筛选
         addChangeListener(text) { table.items = courseService.getCourses(it).asObservable() }
@@ -27,7 +39,7 @@ class CourseSelectView : View() {
         //双击选课
         addDoubleClickListener(table) {
             showConfirm("确认选课", it.name) {
-                courseService.selectCourse(it.id)
+                courseService.selectCourse(student.id, it.id)
                 showAlert("选课成功", "选课成功")
             }
         }

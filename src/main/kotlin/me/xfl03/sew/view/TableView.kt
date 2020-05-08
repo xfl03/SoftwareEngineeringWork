@@ -1,24 +1,24 @@
 package me.xfl03.sew.view
 
-import javafx.scene.Node
-import javafx.scene.Parent
+import me.xfl03.framework.repo.Repository
 import me.xfl03.framework.util.TornadoFXUtil.addDoubleClickListener
-import me.xfl03.framework.util.TornadoFXUtil.createForm
 import me.xfl03.framework.util.TornadoFXUtil.createTableView
-import me.xfl03.sew.repository.AdminRepo
-import me.xfl03.sew.repository.CourseRepo
+import me.xfl03.framework.view.ViewManager
 
 import tornadofx.View
+import kotlin.reflect.KCallable
 
-class TableView : View() {
-    val adminRepo: AdminRepo by di()
-    val courseRepo: CourseRepo by di()
-    val table = createTableView(adminRepo.list())
-    override var root: Parent = table
+class TableView<T : Any>(repo: Repository<T>, listFunc: KCallable<List<T>>) : View() {
+    override var root = createTableView(listFunc.call(repo))
 
     init {
-        addDoubleClickListener(table) {
-            replaceWith(FormView(it,this))
+        addDoubleClickListener(root) {
+            ViewManager.display(FormView(it) { o ->
+                println(o)
+                repo.save(o)
+                root.items.clear()
+                root.items.addAll(listFunc.call(repo))
+            })
         }
     }
 }

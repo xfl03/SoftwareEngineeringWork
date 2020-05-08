@@ -33,19 +33,19 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
         when (query[0]) {
             "insert", "save" -> {
                 if (args == null || args.isEmpty()) {
-                    throw java.lang.IllegalArgumentException("Not enough arguments.");
+                    throw IllegalArgumentException("Not enough arguments.")
                 }
                 session.saveOrUpdate(args[0])
             }
             "update" -> {
                 if (args == null || args.isEmpty()) {
-                    throw java.lang.IllegalArgumentException("Not enough arguments.");
+                    throw IllegalArgumentException("Not enough arguments.")
                 }
                 session.update(args[0])
             }
             "delete", "remove" -> {
                 if (args == null || args.isEmpty()) {
-                    throw java.lang.IllegalArgumentException("Not enough arguments.");
+                    throw IllegalArgumentException("Not enough arguments.")
                 }
                 session.delete(args[0])
             }
@@ -112,13 +112,13 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
         var hql = sb.toString()
         println(hql)
         for (i in 0 until par.size) {
-            hql = hql.replace("{$i}", map[i] ?: " = :{$par[i}")
+            hql = hql.replace("{$i}", map[i] ?: "= :${par[i]}")
         }
         println(hql)
         val q = session.createQuery(hql)
         for (i in 0 until par.size) {
             if (map2.containsKey(i)) {
-                val parm = map2[i]!!.replace("{0}", args!![i].toString());
+                val parm = map2[i]!!.replace("{0}", args!![i].toString())
                 println("${par[i]} -> $parm")
                 q.setParameter(par[i], parm)
             } else {

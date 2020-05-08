@@ -5,6 +5,7 @@ import me.xfl03.framework.util.GuiceUtil
 import me.xfl03.framework.util.HibernateUtil
 import me.xfl03.framework.util.ReflectionsUtil
 import me.xfl03.framework.util.TornadoFXUtil
+import me.xfl03.sew.repository.AdminRepo
 import me.xfl03.sew.service.Test
 
 fun main() {

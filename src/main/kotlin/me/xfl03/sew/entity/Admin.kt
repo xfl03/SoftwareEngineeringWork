@@ -12,9 +12,9 @@ import javax.persistence.Id
 data class Admin(
     @Id
     @Name("π‹¿Ì‘±ID")
-    val id: Long = 0,
+    var id: Long = 0,
     @Column
     @Name("√‹¬Î")
     @Order(3)
-    val password: String = ""
+    var password: String = ""
 ) : Loginable

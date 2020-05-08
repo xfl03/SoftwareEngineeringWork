@@ -22,7 +22,7 @@ class CourseService {
         return list
     }
 
-    fun selectCourse(courseId: Long) {
-        courseSelectRepo.save(CourseSelect(0, 0, courseId))
+    fun selectCourse(studentId:Long,courseId: Long) {
+        courseSelectRepo.save(CourseSelect(0, studentId, courseId))
     }
 }

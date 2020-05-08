@@ -40,5 +40,5 @@ data class Teacher(
     var address: String = "",
     @Column
     @Name("ÃÜÂë")
-    val password: String = ""
+    var password: String = ""
 ) : Loginable
