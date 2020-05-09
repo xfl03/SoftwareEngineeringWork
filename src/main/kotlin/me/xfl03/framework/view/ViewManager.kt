@@ -6,6 +6,7 @@ import java.util.*
 
 object ViewManager {
     val views = LinkedList<View>()
+    var flag = true
 
     fun add(view: View) {
         views.offerLast(view)
@@ -18,6 +19,7 @@ object ViewManager {
     }
 
     fun displayNew(view: View) {
+        flag = false
         val lastView = views.peekLast()
         views.clear()
         views.offerLast(view)
@@ -30,7 +32,10 @@ object ViewManager {
         lastView.replaceWith(views.peekLast())
     }
 
-    fun exit() {
-        Platform.exit()
+    fun tryExit() {
+        if (flag) {
+            Platform.exit()
+        }
+        flag = true
     }
 }

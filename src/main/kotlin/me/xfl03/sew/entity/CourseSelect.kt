@@ -15,5 +15,8 @@ data class CourseSelect(
     var studentId: Long = 0,
     @Column
     @Name("¿Î³ÌID")
-    var courseId: Long = 0
+    var courseId: Long = 0,
+    @Column
+    @Name("·ÖÊý")
+    var score: Int = 0
 )

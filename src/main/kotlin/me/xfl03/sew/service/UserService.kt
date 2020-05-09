@@ -2,7 +2,10 @@ package me.xfl03.sew.service
 
 import com.google.inject.Inject
 import com.google.inject.Singleton
+import me.xfl03.sew.entity.Admin
 import me.xfl03.sew.entity.Loginable
+import me.xfl03.sew.entity.Student
+import me.xfl03.sew.entity.Teacher
 import me.xfl03.sew.repository.AdminRepo
 import me.xfl03.sew.repository.StudentRepo
 import me.xfl03.sew.repository.TeacherRepo
@@ -31,5 +34,18 @@ class UserService {
             user = studentRepo.findByIdAndPassword(id, pw)
         }
         return user != null
+    }
+
+    fun getId(): Long {
+        if (user is Admin) {
+            return (user as Admin).id
+        }
+        if (user is Teacher) {
+            return (user as Teacher).id
+        }
+        if (user is Student) {
+            return (user as Student).id
+        }
+        return -1
     }
 }

@@ -100,6 +100,7 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
                     map[par.size - 1] = "LIKE :${par[par.size - 1]}"
                     map2[par.size - 1] = "%{0}%"
                 }
+                "in" -> map[par.size - 1] = "IN (:${par[par.size - 1]})"
                 else -> {
                     sb.append("$str {${par.size}} ")
                     par.add(str)
@@ -121,6 +122,8 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
                 val parm = map2[i]!!.replace("{0}", args!![i].toString())
                 println("${par[i]} -> $parm")
                 q.setParameter(par[i], parm)
+            } else if (args!![i] is List<*>) {
+                q.setParameterList(par[i], args!![i] as List<*>)
             } else {
                 q.setParameter(par[i], args!![i])
             }

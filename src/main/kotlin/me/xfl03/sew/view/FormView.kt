@@ -4,5 +4,5 @@ import me.xfl03.framework.util.TornadoFXUtil.createForm
 import tornadofx.View
 
 class FormView<T : Any>(obj: T, action: (T) -> Unit = {}) : View() {
-    override val root = createForm(obj, true,  action)
+    override val root = createForm(obj, action)
 }

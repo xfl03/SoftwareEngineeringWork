@@ -6,5 +6,5 @@ import me.xfl03.sew.entity.CourseSelect
 
 @Repo
 interface CourseSelectRepo : Repository<CourseSelect> {
-    fun listByStudentid(studentId: String): List<CourseSelect>
+    fun listByStudentid(studentId: Long): List<CourseSelect>
 }

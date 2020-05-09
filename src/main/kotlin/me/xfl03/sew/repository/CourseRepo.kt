@@ -6,5 +6,6 @@ import me.xfl03.sew.entity.Course
 
 @Repo
 interface CourseRepo : Repository<Course> {
-    fun listByNameContains(name:String):List<Course>
+    fun listByNameContains(name: String): List<Course>
+    fun listByIdIn(ids: List<Long>): List<Course>
 }

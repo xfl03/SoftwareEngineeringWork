@@ -5,6 +5,8 @@ import me.xfl03.framework.util.TornadoFXUtil.addDoubleClickListener
 import me.xfl03.framework.util.TornadoFXUtil.createTableView
 import me.xfl03.framework.util.TornadoFXUtil.showAlert
 import me.xfl03.framework.util.TornadoFXUtil.showConfirm
+import me.xfl03.framework.util.TornadoFXUtil.showWarn
+import me.xfl03.framework.view.AdapterManager
 import me.xfl03.framework.view.ViewManager
 import me.xfl03.sew.entity.Student
 import me.xfl03.sew.service.CourseService
@@ -12,21 +14,20 @@ import me.xfl03.sew.service.UserService
 import tornadofx.*
 
 class CourseSelectView : View() {
+    val adapterManager: AdapterManager by di()
     val userService: UserService by di()
     val student = userService.user as Student
     private val courseService: CourseService by di()
 
     val text = textfield("")
-    val table = createTableView(courseService.getCourses())
+    val table = createTableView(courseService.getCourses(), adapterManager)
 
-    override val root = vbox{
-        button("返回"){
-            action{
+    override val root = vbox {
+        button("返回") {
+            action {
                 ViewManager.back()
             }
         }
-        text
-        table
     }
 
     init {
@@ -39,8 +40,12 @@ class CourseSelectView : View() {
         //双击选课
         addDoubleClickListener(table) {
             showConfirm("确认选课", it.name) {
-                courseService.selectCourse(student.id, it.id)
-                showAlert("选课成功", "选课成功")
+                val result = courseService.selectCourse(student.id, it.id)
+                if (result.first) {
+                    showAlert("选课成功", result.second)
+                } else {
+                    showWarn("选课失败", result.second)
+                }
             }
         }
 
