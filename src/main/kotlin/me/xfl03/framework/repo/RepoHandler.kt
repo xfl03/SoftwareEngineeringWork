@@ -25,9 +25,9 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
         if (method == null) {
             return null
         }
-        println(method.name)
+        //println(method.name)
         val query = parseMethodName(method.name)
-        println(query)
+        //println(query)
         val session = HibernateUtil.getSession()
         val tx = session.beginTransaction()
         when (query[0]) {
@@ -111,16 +111,16 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
             throw IllegalArgumentException("Not enough arguments")
         }
         var hql = sb.toString()
-        println(hql)
+        //println(hql)
         for (i in 0 until par.size) {
             hql = hql.replace("{$i}", map[i] ?: "= :${par[i]}")
         }
-        println(hql)
+        //println(hql)
         val q = session.createQuery(hql)
         for (i in 0 until par.size) {
             if (map2.containsKey(i)) {
                 val parm = map2[i]!!.replace("{0}", args!![i].toString())
-                println("${par[i]} -> $parm")
+                //println("${par[i]} -> $parm")
                 q.setParameter(par[i], parm)
             } else if (args!![i] is List<*>) {
                 q.setParameterList(par[i], args!![i] as List<*>)

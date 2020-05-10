@@ -2,6 +2,7 @@ package me.xfl03.sew.entity
 
 import me.xfl03.framework.view.BooleanAdapter
 import me.xfl03.framework.view.Name
+import me.xfl03.framework.view.NumberAdapter
 
 import java.sql.Date
 
@@ -38,5 +39,9 @@ data class Student(
     var address: String = "",
     @Column
     @Name("√‹¬Î")
-    var password: String = ""
+    var password: String = "",
+    @Column
+    @Name("≈‡—¯∑Ω∞∏")
+    @NumberAdapter("plan")
+    var planId: Long = 0
 ) : Loginable

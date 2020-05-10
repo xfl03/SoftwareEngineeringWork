@@ -3,9 +3,6 @@ package me.xfl03.framework.util
 
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.property.StringProperty
-import javafx.event.ActionEvent
-import javafx.event.EventHandler
-import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.layout.HBox
@@ -16,7 +13,6 @@ import me.xfl03.framework.view.*
 import tornadofx.*
 import java.sql.Date
 import kotlin.reflect.KClass
-import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.findAnnotation
@@ -134,7 +130,6 @@ object TornadoFXUtil {
                 }
             }
         }
-        tv.columnResizePolicy = SmartResize.POLICY
         return tv
     }
 

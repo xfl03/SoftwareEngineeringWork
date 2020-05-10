@@ -6,24 +6,31 @@ import me.xfl03.framework.util.TornadoFXUtil.createTableView
 import me.xfl03.framework.view.AdapterManager
 import me.xfl03.framework.view.ViewManager
 
-import tornadofx.View
-import kotlin.reflect.KCallable
+import tornadofx.*
 
 class TableView<T : Any>(
-    repo: Repository<T>,
-    listFunc: (Repository<T>) -> List<T>,
+    listFunc: () -> List<T>,
     action: (T) -> Boolean = { false }
 ) : View() {
     val adapterManager: AdapterManager by di()
-    override var root = createTableView(listFunc.invoke(repo), adapterManager)
-
-    init {
-        addDoubleClickListener(root) {
-            val result = action.invoke(it)
-            if (result) {
-                root.items.clear()
-                root.items.addAll(listFunc.invoke(repo))
+    val table = createTableView(listFunc.invoke(), adapterManager)
+    override var root = vbox {
+        button("·µ»Ø") {
+            action{
+                ViewManager.back()
             }
         }
+    }
+
+    init {
+        addDoubleClickListener(table) {
+            val result = action.invoke(it)
+            if (result) {
+                table.items.clear()
+                table.items.addAll(listFunc.invoke())
+            }
+        }
+        table.columnResizePolicy = SmartResize.POLICY
+        root.add(table)
     }
 }

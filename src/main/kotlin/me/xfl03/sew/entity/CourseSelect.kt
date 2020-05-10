@@ -1,6 +1,7 @@
 package me.xfl03.sew.entity
 
 import me.xfl03.framework.view.Name
+import me.xfl03.framework.view.NumberAdapter
 
 import javax.persistence.*
 
@@ -18,5 +19,6 @@ data class CourseSelect(
     var courseId: Long = 0,
     @Column
     @Name("·ÖÊý")
+    @NumberAdapter("score")
     var score: Int = 0
 )

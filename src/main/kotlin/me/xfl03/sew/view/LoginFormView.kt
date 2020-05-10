@@ -44,7 +44,7 @@ class LoginFormView : View() {
                         val user = userService.user
                         println(user)
                         when (user) {
-                            is Admin -> ViewManager.display(TableView(userService.adminRepo, { it.list() }) {
+                            is Admin -> ViewManager.display(TableView({ userService.adminRepo.list() }) {
                                 var res = false
                                 ViewManager.display(FormView(it) { o ->
                                     println(o)
