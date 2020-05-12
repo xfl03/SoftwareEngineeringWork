@@ -7,9 +7,11 @@ import me.xfl03.framework.util.TornadoFXUtil.showWarn
 import me.xfl03.framework.view.ViewManager
 import me.xfl03.sew.entity.Admin
 import me.xfl03.sew.entity.Student
+import me.xfl03.sew.entity.Teacher
 import me.xfl03.sew.repository.AdminRepo
 import me.xfl03.sew.service.UserService
 import me.xfl03.sew.view.student.StudentMenuView
+import me.xfl03.sew.view.teacher.TeacherMenuView
 import tornadofx.*
 
 
@@ -54,6 +56,7 @@ class LoginFormView : View() {
                                 res
                             })
                             is Student -> ViewManager.displayNew(StudentMenuView())
+                            is Teacher -> ViewManager.displayNew(TeacherMenuView())
                         }
                     } else {
                         showWarn("µÇÂ¼Ê§°Ü", "ID»òÃÜÂë´íÎó")

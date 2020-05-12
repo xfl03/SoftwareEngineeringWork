@@ -1,6 +1,5 @@
 package me.xfl03.sew.view.student
 
-import me.xfl03.framework.util.TornadoFXUtil
 import me.xfl03.framework.util.TornadoFXUtil.showAlert
 import me.xfl03.framework.util.TornadoFXUtil.showConfirm
 import me.xfl03.framework.util.TornadoFXUtil.showWarn
@@ -10,7 +9,7 @@ import me.xfl03.sew.service.CourseService
 import me.xfl03.sew.service.UserService
 import me.xfl03.sew.view.InfoView
 import me.xfl03.sew.view.TableView
-import me.xfl03.sew.view.TextareaView
+import me.xfl03.sew.view.TextAreaView
 import tornadofx.*
 
 class StudentMenuView : View() {
@@ -96,7 +95,7 @@ class StudentMenuView : View() {
                             if (has) {
                                 showWarn("评教失败", "已经评教过")
                             } else {
-                                ViewManager.display(TextareaView() {
+                                ViewManager.display(TextAreaView() {
                                     courseService.addEvaluation(userService.getId(), course.id, it)
                                     showAlert("评教成功", "评教成功")
                                 })

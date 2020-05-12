@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.beans.property.StringProperty
 import javafx.scene.Node
 import javafx.scene.control.*
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.layout.Priority
@@ -32,24 +33,39 @@ object TornadoFXUtil {
             .addListener { _, _, str -> executor.execute { listener.invoke(str) } }
     }
 
-    fun <T> addDoubleClickListener(table: TableView<T>, listener: (T) -> Unit) {
+    fun <T> addSingleClickListener(table: TableView<T>, listener: (T) -> Unit) {
         table.setOnMousePressed {
-            if (it.isPrimaryButtonDown && it.clickCount == 2) {
-                val node: Node = it.target as Node
-                val row: TableRow<T>? = if (node is TableRow<*>) {
-                    node as TableRow<T>
-                } else if (node.parent is TableRow<*>) {
-                    node.parent as TableRow<T>
-                } else if (node.parent.parent is TableRow<*>) {
-                    node.parent.parent as TableRow<T>
-                } else {
-                    null
-                }
-                if (row != null && row.item != null) {
-                    listener.invoke(row.item)
+            if (it.isPrimaryButtonDown && it.clickCount == 1) {
+                val item=getSelected<T>(it)
+                if (item != null) {
+                    listener.invoke(item)
                 }
             }
         }
+    }
+
+    fun <T> addDoubleClickListener(table: TableView<T>, listener: (T) -> Unit) {
+        table.setOnMousePressed {
+            if (it.isPrimaryButtonDown && it.clickCount == 2) {
+                val item=getSelected<T>(it)
+                if (item != null) {
+                    listener.invoke(item)
+                }
+            }
+        }
+    }
+
+    fun <T> getSelected(it: MouseEvent): T? {
+        var node: Node? = it.target as Node
+        var ret: TableRow<T>? = null
+        while (node != null) {
+            if (node is TableRow<*>) {
+                ret = node as TableRow<T>
+                break
+            }
+            node = node.parent
+        }
+        return ret?.item
     }
 
     fun showConfirm(title: String, msg: String, onSuccess: () -> Unit) {

@@ -49,7 +49,7 @@ class PlanView : View() {
                 Entity(it.name, it.credit, sc.contains(it.id))
             }
 
-            creditField.text = "计划完成情况：已修读学分${credits} / 总学分${plan.credits}"
+            creditField.text = "计划完成情况：已修读学分${credits} / 要求学分${plan.credits}"
 
             val table = createTableView(pc)
             root.add(table)
