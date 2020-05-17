@@ -8,8 +8,8 @@ import me.xfl03.framework.view.ViewManager
 import me.xfl03.sew.entity.Admin
 import me.xfl03.sew.entity.Student
 import me.xfl03.sew.entity.Teacher
-import me.xfl03.sew.repository.AdminRepo
 import me.xfl03.sew.service.UserService
+import me.xfl03.sew.view.admin.AdminMenuView
 import me.xfl03.sew.view.student.StudentMenuView
 import me.xfl03.sew.view.teacher.TeacherMenuView
 import tornadofx.*
@@ -46,15 +46,7 @@ class LoginFormView : View() {
                         val user = userService.user
                         println(user)
                         when (user) {
-                            is Admin -> ViewManager.display(TableView({ userService.adminRepo.list() }) {
-                                var res = false
-                                ViewManager.display(FormView(it) { o ->
-                                    println(o)
-                                    userService.adminRepo.save(o)
-                                    res = true
-                                })
-                                res
-                            })
+                            is Admin -> ViewManager.displayNew(AdminMenuView())
                             is Student -> ViewManager.displayNew(StudentMenuView())
                             is Teacher -> ViewManager.displayNew(TeacherMenuView())
                         }

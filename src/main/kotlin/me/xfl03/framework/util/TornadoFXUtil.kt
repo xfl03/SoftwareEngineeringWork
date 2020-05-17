@@ -33,23 +33,18 @@ object TornadoFXUtil {
             .addListener { _, _, str -> executor.execute { listener.invoke(str) } }
     }
 
-    fun <T> addSingleClickListener(table: TableView<T>, listener: (T) -> Unit) {
+    fun <T> addClickListener(table: TableView<T>, singleListener: (T) -> Unit = {}, doubleListener: (T) -> Unit = {}) {
         table.setOnMousePressed {
             if (it.isPrimaryButtonDown && it.clickCount == 1) {
-                val item=getSelected<T>(it)
+                val item = getSelected<T>(it)
                 if (item != null) {
-                    listener.invoke(item)
+                    singleListener.invoke(item)
                 }
             }
-        }
-    }
-
-    fun <T> addDoubleClickListener(table: TableView<T>, listener: (T) -> Unit) {
-        table.setOnMousePressed {
             if (it.isPrimaryButtonDown && it.clickCount == 2) {
-                val item=getSelected<T>(it)
+                val item = getSelected<T>(it)
                 if (item != null) {
-                    listener.invoke(item)
+                    doubleListener.invoke(item)
                 }
             }
         }
@@ -191,9 +186,9 @@ object TornadoFXUtil {
         spacer.setMinSize(10.0, 1.0)
         val btnR = Button("·µ»Ø")
         val hbox = HBox()
-        hbox += btnL
-        hbox += spacer
         hbox += btnR
+        hbox += spacer
+        hbox += btnL
         vbox += hbox
 
         btnL.setOnAction {

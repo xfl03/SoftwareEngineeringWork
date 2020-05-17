@@ -1,7 +1,7 @@
 package me.xfl03.sew.view.student
 
 import me.xfl03.framework.util.TornadoFXUtil.addChangeListener
-import me.xfl03.framework.util.TornadoFXUtil.addDoubleClickListener
+import me.xfl03.framework.util.TornadoFXUtil.addClickListener
 import me.xfl03.framework.util.TornadoFXUtil.createTableView
 import me.xfl03.framework.util.TornadoFXUtil.showAlert
 import me.xfl03.framework.util.TornadoFXUtil.showConfirm
@@ -38,7 +38,7 @@ class CourseSelectView : View() {
         addChangeListener(text) { table.items = courseService.getCourses(it).asObservable() }
 
         //双击选课
-        addDoubleClickListener(table) {
+        addClickListener(table, {}) {
             showConfirm("确认选课", it.name) {
                 val result = courseService.selectCourse(student.id, it.id)
                 if (result.first) {

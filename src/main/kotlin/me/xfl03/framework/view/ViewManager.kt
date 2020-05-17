@@ -29,7 +29,11 @@ object ViewManager {
 
     fun back() {
         val lastView = views.pollLast()
-        lastView.replaceWith(views.peekLast())
+        val targetView = views.peekLast();
+        if (targetView is BackEventListener) {
+            targetView.onBack()
+        }
+        lastView.replaceWith(targetView)
     }
 
     fun tryExit() {

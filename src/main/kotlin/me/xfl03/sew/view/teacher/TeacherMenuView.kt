@@ -7,7 +7,6 @@ import me.xfl03.sew.service.UserService
 import me.xfl03.sew.view.InfoView
 import me.xfl03.sew.view.TableView
 import me.xfl03.sew.view.TextFieldView
-import me.xfl03.sew.view.student.CourseSelectView
 import tornadofx.*
 
 class TeacherMenuView : View() {
@@ -65,5 +64,9 @@ class TeacherMenuView : View() {
                 }
             }
         }
+    }
+
+    init {
+        title = "ΩÃ ¶∂À"
     }
 }

@@ -2,20 +2,19 @@ package me.xfl03.sew.view
 
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
-import me.xfl03.framework.repo.Repository
-import me.xfl03.framework.util.TornadoFXUtil.addDoubleClickListener
-import me.xfl03.framework.util.TornadoFXUtil.addSingleClickListener
+import me.xfl03.framework.util.TornadoFXUtil.addClickListener
 import me.xfl03.framework.util.TornadoFXUtil.createTableView
 import me.xfl03.framework.view.AdapterManager
+import me.xfl03.framework.view.BackEventListener
 import me.xfl03.framework.view.ViewManager
 
 import tornadofx.*
 
 class TableView<T : Any>(
-    listFunc: () -> List<T>,
-    buttons: Map<String, (T?) -> Boolean> = emptyMap(),
-    action: (T) -> Boolean = { false }
-) : View() {
+    val listFunc: () -> List<T>,
+    buttons: Map<String, (T?) -> Unit> = emptyMap(),
+    action: (T) -> Unit = { }
+) : View(),BackEventListener {
     val adapterManager: AdapterManager by di()
     val table = createTableView(listFunc.invoke(), adapterManager)
     var item: T? = null
@@ -40,21 +39,22 @@ class TableView<T : Any>(
             val btn = button(it.key) {
                 action {
                     it.value.invoke(item)
+                    onBack()
                 }
             }
             hbox.add(btn)
         }
-        addSingleClickListener(table) {
+        addClickListener(table, {
             item = it
-        }
-        addDoubleClickListener(table) {
-            val result = action.invoke(it)
-            if (result) {
-                table.items.clear()
-                table.items.addAll(listFunc.invoke())
-            }
-        }
+        }, {
+            action.invoke(it)
+        })
         table.columnResizePolicy = SmartResize.POLICY
         root.add(table)
+    }
+
+    override fun onBack() {
+        table.items.clear()
+        table.items.addAll(listFunc.invoke())
     }
 }
