@@ -35,11 +35,10 @@ class TeacherMenuView : View() {
                     action {
                         ViewManager.display(TableView({
                             courseService.courseRepo.listByTeacherid(teacher.id)
-                        }) {
+                        }, "选课名单") {
                             ViewManager.display(TableView({
                                 courseService.courseSelectRepo.listByCourseid(it.id)
-                            }))
-                            false
+                            }, it.name))
                         })
                     }
                 }
@@ -48,17 +47,15 @@ class TeacherMenuView : View() {
                     action {
                         ViewManager.display(TableView({
                             courseService.courseRepo.listByTeacherid(teacher.id)
-                        }) {
+                        }, "成绩录入") {
                             ViewManager.display(TableView({
                                 courseService.courseSelectRepo.listByCourseid(it.id)
-                            }) { cs ->
-                                ViewManager.display(TextFieldView() {
+                            }, it.name) { cs ->
+                                ViewManager.display(TextFieldView {
                                     cs.score = it.toInt()
                                     courseService.courseSelectRepo.save(cs)
                                 })
-                                true
                             })
-                            false
                         })
                     }
                 }

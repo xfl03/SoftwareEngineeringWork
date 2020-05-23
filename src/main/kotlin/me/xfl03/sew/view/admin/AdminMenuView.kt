@@ -26,13 +26,13 @@ class AdminMenuView : View() {
                 button("学生管理") {
                     setMinSize(minWidth0, minHeight0)
                     action {
-                        basicOnAction(userService.studentRepo, Student::class.java)
+                        basicOnAction("学生管理", userService.studentRepo, Student::class.java)
                     }
                 }
                 button("教师管理") {
                     setMinSize(minWidth0, minHeight0)
                     action {
-                        basicOnAction(userService.teacherRepo, Teacher::class.java)
+                        basicOnAction("教师管理", userService.teacherRepo, Teacher::class.java)
                     }
                 }
             }
@@ -40,13 +40,13 @@ class AdminMenuView : View() {
                 button("课程管理") {
                     setMinSize(minWidth0, minHeight0)
                     action {
-                        basicOnAction(courseService.courseRepo, Course::class.java)
+                        basicOnAction("课程管理", courseService.courseRepo, Course::class.java)
                     }
                 }
                 button("选课管理") {
                     setMinSize(minWidth0, minHeight0)
                     action {
-                        basicOnAction(courseService.courseSelectRepo, CourseSelect::class.java)
+                        basicOnAction("选课管理", courseService.courseSelectRepo, CourseSelect::class.java)
                     }
                 }
             }
@@ -57,10 +57,11 @@ class AdminMenuView : View() {
         title = "管理员端"
     }
 
-    private fun <T : Any> basicOnAction(repo: Repository<T>, clazz: Class<T>) {
+    private fun <T : Any> basicOnAction(title: String, repo: Repository<T>, clazz: Class<T>) {
         ViewManager.display(
             TableView<T>(
                 { repo.list() },
+                title,
                 mapOf(
                     "删除" to { it: T? ->
                         if (it != null) {

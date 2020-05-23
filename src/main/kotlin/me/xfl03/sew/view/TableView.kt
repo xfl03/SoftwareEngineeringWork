@@ -12,9 +12,10 @@ import tornadofx.*
 
 class TableView<T : Any>(
     val listFunc: () -> List<T>,
+    val title0: String = "",
     buttons: Map<String, (T?) -> Unit> = emptyMap(),
     action: (T) -> Unit = { }
-) : View(),BackEventListener {
+) : View(), BackEventListener {
     val adapterManager: AdapterManager by di()
     val table = createTableView(listFunc.invoke(), adapterManager)
     var item: T? = null
@@ -35,6 +36,7 @@ class TableView<T : Any>(
     }
 
     init {
+        title = title0
         buttons.forEach {
             val btn = button(it.key) {
                 action {

@@ -36,6 +36,7 @@ class ExamResultView : View() {
     }
 
     init {
+        title = "³É¼¨"
         val gpa = courseService.getGPA(userService.getId())
         if (gpa == -0.0) {
             gpaField.text = "ÔÝÎÞ¼¨µã"

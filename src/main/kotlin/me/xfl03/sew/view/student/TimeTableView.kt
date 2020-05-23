@@ -23,6 +23,7 @@ class TimeTableView : View() {
     }
 
     init {
+        title = "¿Î±í"
         val arr = Array(5) { i ->
             Array(8) { j -> if (j == 0) manager.times[i + 1] else "" }
         }

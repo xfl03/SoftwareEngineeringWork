@@ -123,9 +123,9 @@ class RepoHandler(clazz: Class<*>) : InvocationHandler {
                 //println("${par[i]} -> $parm")
                 q.setParameter(par[i], parm)
             } else if (args!![i] is List<*>) {
-                q.setParameterList(par[i], args!![i] as List<*>)
+                q.setParameterList(par[i], args[i] as List<*>)
             } else {
-                q.setParameter(par[i], args!![i])
+                q.setParameter(par[i], args[i])
             }
         }
         return q

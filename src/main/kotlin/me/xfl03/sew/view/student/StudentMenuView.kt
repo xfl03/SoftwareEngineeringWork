@@ -52,20 +52,20 @@ class StudentMenuView : View() {
                 }
             }
             hbox {
-                button("考试时间") {
+                button("考试安排") {
                     setMinSize(minWidth0, minHeight0)
                     action {
                         ViewManager.display(TableView({
                             courseService.getExams(userService.getId())
-                        }))
+                        }, "考试安排"))
                     }
                 }
                 button("选课结果") {
                     setMinSize(minWidth0, minHeight0)
                     action {
-                        ViewManager.display(TableView( {
+                        ViewManager.display(TableView({
                             courseService.getSelectedCourse(userService.getId())
-                        }) {
+                        }, "选课结果") {
                             var res = false
                             val course = courseService.getCourse(it.id)
                             if (course != null) {
@@ -79,7 +79,6 @@ class StudentMenuView : View() {
                                     res = ret.first
                                 }
                             }
-                            res
                         })
                     }
                 }
@@ -88,9 +87,9 @@ class StudentMenuView : View() {
                 button("网上评教") {
                     setMinSize(minWidth0, minHeight0)
                     action {
-                        ViewManager.display(TableView( {
+                        ViewManager.display(TableView({
                             courseService.getSelectedCourse(userService.getId())
-                        }) { course ->
+                        }, "网上评教") { course ->
                             val has = courseService.hasEvaluation(userService.getId(), course.id)
                             if (has) {
                                 showWarn("评教失败", "已经评教过")
@@ -100,7 +99,6 @@ class StudentMenuView : View() {
                                     showAlert("评教成功", "评教成功")
                                 })
                             }
-                            false
                         })
                     }
                 }
